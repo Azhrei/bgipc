@@ -39,6 +39,7 @@
 
 <guideinfo>
 <title>Beej's Guide to Unix IPC</title>
+<subtitle>(As updated by Azhrei, 02-May-2019)</subtitle>
 
 <author>
 	<name>Brian "Beej Jorgensen" Hall</name>
@@ -55,10 +56,11 @@ History:
 1.1.1 (19-Jul-2010, sa_handler should have been sa_flags)
 1.1.2 (15-Dec-2010, fix msgbuf size calculation, rvdw@tarma.com)
 1.1.3 (01-Dec-2015, really fix msgp size calcuation for msgsnd/rcv)
+1.1.3a (02-May-2019, Azhrei cleanup of recommendations and best practics)
 -->
 
-<version>Version 1.1.3</version>
-<date>December 1, 2015</date>
+<version>Version 1.1.3a</version>
+<date>May 2, 2019</date>
 
 <copyright>Copyright <copysym/> &copydates;  Brian "Beej Jorgensen" Hall</copyright>
 
@@ -567,7 +569,7 @@ destroy the process.)</p>
 <p>Are all the signals predefined?  What if you want to send a signal
 that has significance that only you understand to a process?  There are
 two signals that aren't reserved: <const>SIGUSR1</const> and
-<const>SIGUSER2</const>.  You are free to use these for whatever you
+<const>SIGUSR2</const>.  You are free to use these for whatever you
 want and handle them in whatever way you choose.  (For example, my cd
 player program might respond to <const>SIGUSR1</const> by advancing to
 the next track.  In this way, I could control it from the command line
@@ -2882,16 +2884,17 @@ check for errors:</p>
 if (data == (void *)(-1))   /* Would love to use MAP_FAILED! */
     perror("shmat");</code>
 
-<p>(It's important to note that the integer is being cast to a pointer,
-and not the pointer return value being cast to an integer.  It's a
-subtle difference, but the latter is not always portable between
-architectures.  Also note that the cast is to <type>void*</type>
-and not <type>char*</type>, as you might expect.  Since the language
-guarantees that implicit casts from <type>void*</type> to any other
-kind of pointer are always safe and reliable, it's better to use
-<type>void*</type> and let the compiler to the work.)</p>
+<p>(It's important to note that the integer is being cast to a
+pointer, and not the pointer return value (<code>data</code>) being
+cast to an integer.  It's a subtle difference, but the latter is
+not always portable between architectures.  Also note that the cast
+is to <type>void*</type> and not <type>char*</type>, as you might
+expect.  Since the language guarantees that implicit casts from
+<type>void*</type> to any other kind of pointer are always safe and
+reliable, it's better to use <type>void*</type> and let the compiler
+do the work.)</p>
 
-<p>All you have to do now is change the data it points to normal
+<p>All you have to do now is change the data it points to into normal
 pointer-style. There are some samples in the next section.</p>
 
 </sect2>
